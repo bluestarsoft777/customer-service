@@ -2,15 +2,16 @@ import React, { Component } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { Provider, observer } from 'mobx-react'
 import HomePage from './Home'
+import ProfilePage from './ProfilePage'
 import AboutPage from './AboutPage'
 import AuthCallback from './AuthCallback'
 import NotFoundPage from './NotFoundPage'
 import Header from './common/Header'
 import AuthStore from './stores/auth-store'
-import 'bulma/css/bulma.css'
-import './App.css'
 import { CustomerServicePage, CustomerPage } from './CustomerService'
 import Loader from './common/Loader'
+import 'bulma/css/bulma.css'
+import './App.css'
 
 const authStore = new AuthStore()
 
@@ -36,10 +37,10 @@ const AppRoutes = () => {
       <Header />
       <Switch>
         <Route exact path='/' component={HomePage} />
-        {/* <Route path='/' render={() => <AuthenticationRequiredRoutes userStore={stores.userStore} />} /> */}
         <Route exact path='/customer-service' component={CustomerServicePage} />
         <Route exact path='/customer-service/:customerId' component={CustomerPage} />
         <Route exact path='/callback' component={AuthCallback} />
+        <Route exact path='/profile' component={ProfilePage} />
         <Route exact path='/about' component={AboutPage} />
         <Route component={NotFoundPage} />
       </Switch>

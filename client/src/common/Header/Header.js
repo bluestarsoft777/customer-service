@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, NavLink, withRouter } from 'react-router-dom'
-import { LoginOutButton, SalesRepresentativeAuthorization } from '../Authorization'
+import { LoginOutButton, SalesRepresentativeAuthorization, LoggedInAuthorization } from '../Authorization'
 import { observer } from 'mobx-react'
 // import logo from '../../logo.svg'
 
@@ -55,6 +55,12 @@ class Header extends React.Component {
                 Customer service
               </NavLink>
             </SalesRepresentativeAuthorization>
+
+            <LoggedInAuthorization>
+              <NavLink to={'/profile'} className='navbar-item' activeClassName='has-text-weight-bold'>
+                Profile
+              </NavLink>
+            </LoggedInAuthorization>
 
             <NavLink to={'/about'} className='navbar-item' activeClassName='has-text-weight-bold'>
               About

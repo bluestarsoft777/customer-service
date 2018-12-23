@@ -33,6 +33,12 @@ class AuthStore {
         if (!this.idTokenPayload) return false
         const userRoles = this.idTokenPayload['https://customer-service.com/roles']
         return userRoles.includes('sales-representative')
+      },
+
+      get isBasicUser () {
+        if (!this.idTokenPayload) return false
+        const userRoles = this.idTokenPayload['https://customer-service.com/roles']
+        return userRoles.includes('basic')
       }
     })
 
@@ -89,6 +95,21 @@ class AuthStore {
         onError && onError(error)
         // alert(`Error ${error.error}. Check console for details.`)
       }
+    })
+  }
+
+  getProfile = async () => {
+    if (!this.accessToken) throw Error('User not logged in')
+
+    return new Promise((resolve, reject) => {
+      this.auth0.client.userInfo(this.accessToken, (error, profile) => {
+        if (error) {
+          reject(error)
+        } else {
+          console.log(profile)
+          resolve(profile)
+        }
+      })
     })
   }
 
