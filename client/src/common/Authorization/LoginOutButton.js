@@ -1,16 +1,20 @@
 import React from 'react'
 import { inject, observer } from 'mobx-react'
 
-const LogInOutButton = ({ authStore }) => {
+const LogInOutButton = ({ className, authStore }) => {
+  const classes = className
+    ? `button is-link ${className}`
+    : 'button is-link'
+
   if (authStore.isLoggedIn) {
     return (
-      <button className='button is-link' onClick={authStore.logout}>
+      <button className={classes} onClick={authStore.logout}>
         <strong>Log out</strong>
       </button>
     )
   } else {
     return (
-      <button className='button is-link' onClick={authStore.login}>
+      <button className={classes} onClick={authStore.login}>
         <strong>Log in</strong>
       </button>
     )
