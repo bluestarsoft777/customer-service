@@ -1,0 +1,8 @@
+.customer-table-row {
+  cursor: pointer;
+  transition: background-color ease-out 0.15s;
+}
+
+.customer-table-row:hover {
+  background-color: rgba(50, 115, 220, 0.1) !important;
+}
