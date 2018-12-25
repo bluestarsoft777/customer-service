@@ -1,8 +1,7 @@
 import api from '../api/api'
 import { extendObservable } from 'mobx'
 import auth0 from 'auth0-js'
-
-// import tokenStorage from '../utils/tokenStorage'
+import { isSalesRepresentative, isBasic, isUserLoginSaved, saveUserLogin, clearUserLogin } from '../common/Authorization/authorizationHelpers'
 
 class AuthStore {
   constructor () {
@@ -22,27 +21,22 @@ class AuthStore {
       expiresAt: 0,
       loading: true,
 
-      // error: null,
-      // user: null,
-
       get isLoggedIn () {
         return new Date().getTime() < this.expiresAt
       },
 
       get isSalesRepresentative () {
         if (!this.idTokenPayload) return false
-        const userRoles = this.idTokenPayload['https://customer-service.com/roles']
-        return userRoles.includes('sales-representative')
+        return isSalesRepresentative(this.idTokenPayload)
       },
 
       get isBasicUser () {
         if (!this.idTokenPayload) return false
-        const userRoles = this.idTokenPayload['https://customer-service.com/roles']
-        return userRoles.includes('basic')
+        return isBasic(this.idTokenPayload)
       }
     })
 
-    if (window.localStorage.getItem('isLoggedIn') === 'true') {
+    if (isUserLoginSaved()) {
       this.renewSession()
     } else {
       this.loading = false
@@ -54,7 +48,7 @@ class AuthStore {
   }
 
   setSession = (authResult) => {
-    window.localStorage.setItem('isLoggedIn', 'true')
+    saveUserLogin()
 
     let expiresAt = (authResult.expiresIn * 1000) + (new Date().getTime())
 
@@ -89,7 +83,6 @@ class AuthStore {
         this.loading = false
         onAuth && onAuth()
       } else if (error) {
-        // this.logout()
         this.loading = false
         console.error(error)
         onError && onError(error)
@@ -106,7 +99,6 @@ class AuthStore {
         if (error) {
           reject(error)
         } else {
-          console.log(profile)
           resolve(profile)
         }
       })
@@ -114,58 +106,16 @@ class AuthStore {
   }
 
   logout = () => {
-    // this doesn't redirect properly
-    // this.auth0.logout({
-    //   returnTo: process.env.REACT_APP_URL,
-    //   clientID: process.env.REACT_APP_AUTH_CLIENT_ID
-    // })
-
     this.accessToken = null
     this.idToken = null
     this.idTokenPayload = null
     this.expiresAt = 0
 
-    window.localStorage.removeItem('isLoggedIn')
+    clearUserLogin()
+    window.location = '/'
 
     api.clearToken()
   }
-
-  // async loadUser () {
-  //   const token = tokenStorage.getToken()
-  //   if (token) {
-  //     try {
-  //       this.loading = true
-  //       api.setToken(token)
-  //       const user = await userApi.load(token)
-  //       this.user = user
-  //       this.loading = false
-  //     } catch (error) {
-  //       if (isUnathorizedError(error)) {
-  //         this.logoutUser()
-  //       }
-  //       // else retry?
-  //     }
-  //   }
-  // }
-
-  // setUser (userData, token) {
-  //   tokenStorage.saveToken(token)
-  //   api.setToken(token)
-  //   this.user = userData
-  // }
-
-  // logoutUser = () => {
-  //   tokenStorage.clearToken()
-  //   this.user = null
-  //   api.clearToken()
-
-  //   // reload the app, to clear the state
-  //   window.location.reload()
-  // }
 }
 
 export default AuthStore
-
-// function isUnathorizedError (error) {
-//   return error.code === 'UNAUTHORIZED'
-// }
