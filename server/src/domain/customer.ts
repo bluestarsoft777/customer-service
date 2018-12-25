@@ -1,7 +1,7 @@
 import * as t from 'io-ts'
 
 export const CustomerV = t.type({
-  id: t.string,
+  id: t.number,
   firstName: t.string,
   lastName: t.string,
   email: t.string,
