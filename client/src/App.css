@@ -30,3 +30,15 @@
     transform: rotate(360deg);
   }
 }
+
+.mt1 {
+  margin-top: 1rem;
+}
+
+.mt2 {
+  margin-top: 2rem;
+}
+
+.mt3 {
+  margin-top: 3rem;
+}
