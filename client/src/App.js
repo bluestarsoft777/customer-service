@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch, withRouter } from 'react-router-dom'
 import { Provider, observer } from 'mobx-react'
 import HomePage from './Home'
 import ProfilePage from './ProfilePage'
@@ -13,15 +13,18 @@ import Loader from './common/Loader'
 import 'bulma/css/bulma.css'
 import './App.css'
 
-const authStore = new AuthStore()
-
 class App extends Component {
+  constructor (props) {
+    super(props)
+    this.authStore = new AuthStore()
+  }
+
   render () {
     return (
       <div>
         <Router>
-          <Provider authStore={authStore}>
-            {authStore.loading
+          <Provider authStore={this.authStore}>
+            {this.authStore.loading
               ? <Loader />
               : <AppRoutes />}
           </Provider>
@@ -47,50 +50,5 @@ const AppRoutes = () => {
     </div>
   )
 }
-
-// <nav>
-//   <ul>
-//     <li>
-//       <button
-//         onClick={e => this.goTo('home')}
-//         >
-//         Go to home
-//       </button>
-//     </li>
-//     <li>
-//     {
-//       userAuthenticated
-//         ? this.renderLogoutButton()
-//         : this.renderLoginButton()
-//     }
-//     </li>
-//   </ul>
-// </nav>
-
-// const auth = new Auth()
-// auth.login()
-
-// class App extends Component {
-//   render () {
-//     return (
-//       <div className='App'>
-//         <header className='App-header'>
-//           <img src={logo} className='App-logo' alt='logo' />
-//           <p>
-//             Edit <code>src/App.js</code> and save to reload.
-//           </p>
-//           <a
-//             className='App-link'
-//             href='https://reactjs.org'
-//             target='_blank'
-//             rel='noopener noreferrer'
-//           >
-//             Learn React
-//           </a>
-//         </header>
-//       </div>
-//     )
-//   }
-// }
 
 export default observer(App)
