@@ -1,0 +1,8 @@
+.customer-info__line {
+  white-space: nowrap
+}
+
+.customer-info__label {
+  display: inline-block;
+  min-width: 90px;
+}

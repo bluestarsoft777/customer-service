@@ -2,11 +2,8 @@ import React from 'react'
 import { observer } from 'mobx-react'
 import SingleCustomerStore from './single-customer-store'
 import Loader from '../../common/Loader'
-import { withRouter } from 'react-router-dom'
-// import CustomerStore from './customer-store'
-// import CustomerTable from './CustomerTable'
-// import Pagination from '../../common/Pagination/Pagination'
-// import CustomerSearchForm from './CustomerSearchForm'
+import { withRouter, Link } from 'react-router-dom'
+import CustomerInfo from './CustomerInfo'
 
 class CustomerPage extends React.Component {
   constructor (props) {
@@ -22,30 +19,15 @@ class CustomerPage extends React.Component {
       content = <Loader />
     } else {
       const { customerData } = this.singleCustomerStore
-
-      content = (
-        <React.Fragment>
-          <div>
-            First name: {customerData.firstName}
-          </div>
-          <div>
-            Last name: {customerData.lastName}
-          </div>
-          <div>
-            Email: {customerData.email}
-          </div>
-          <div>
-            Status: {customerData.isHot ? '🔥 Hot' : 'Normal'}
-          </div>
-        </React.Fragment>
-      )
+      content = <CustomerInfo customer={customerData} />
     }
 
     return (
       <div className='section'>
-        <h1 className='title'>Customer page 1</h1>
+        <h1 className='title'>Customer page</h1>
         <div>
           {content}
+          <Link to='/customer-service' className='button is-link mt2'>Back to list</Link>
         </div>
       </div>
     )
