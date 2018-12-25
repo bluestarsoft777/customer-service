@@ -1,7 +1,7 @@
 import React from 'react'
 import { inject, observer } from 'mobx-react'
-import { extendObservable } from 'mobx';
-import Loader from '../common/Loader';
+import { extendObservable } from 'mobx'
+import Loader from '../common/Loader'
 
 class ProfilePage extends React.Component {
   constructor (props) {
@@ -36,9 +36,13 @@ class ProfilePage extends React.Component {
       content = (
         <div>
           Display info here
-          <div>ID: {}</div>
-          <div>Email: {}</div>
+          <div>ID: {this.profileData.sub}</div>
+          <div>Email: {this.profileData.name}</div>
           <div>Role: {role}</div>
+          <img src={this.profileData.picture} alt={`${this.profileData.name} photo`} />
+          <pre>
+            {JSON.stringify(this.profileData, null, 2)}
+          </pre>
         </div>
       )
     }

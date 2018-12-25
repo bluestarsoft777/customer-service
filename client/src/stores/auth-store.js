@@ -11,7 +11,7 @@ class AuthStore {
       clientID: process.env.REACT_APP_AUTH_CLIENT_ID,
       redirectUri: process.env.REACT_APP_AUTH_REDIRECT_URI,
       responseType: 'token id_token',
-      scope: 'openid'
+      scope: 'openid profile'
     })
 
     extendObservable(this, {
