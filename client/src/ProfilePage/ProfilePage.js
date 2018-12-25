@@ -2,6 +2,7 @@ import React from 'react'
 import { inject, observer } from 'mobx-react'
 import { extendObservable } from 'mobx'
 import Loader from '../common/Loader'
+import ProfileCard from './ProfileCard';
 
 class ProfilePage extends React.Component {
   constructor (props) {
@@ -26,34 +27,16 @@ class ProfilePage extends React.Component {
   }
 
   render () {
-    let content
-
-    if (this.loading) {
-      content = <Loader />
-    } else {
-      const roles = 'https://customer-service.com/roles'
-      const role = this.profileData[roles]
-      content = (
-        <div>
-          Display info here
-          <div>ID: {this.profileData.sub}</div>
-          <div>Email: {this.profileData.name}</div>
-          <div>Role: {role}</div>
-          <img src={this.profileData.picture} alt={`${this.profileData.name} photo`} />
-          <pre>
-            {JSON.stringify(this.profileData, null, 2)}
-          </pre>
-        </div>
-      )
-    }
-
     return (
       <div className='section'>
         <h1 className='title'>
           Your profile
         </h1>
 
-        {content}
+        {this.loading
+          ? <Loader />
+          : <ProfileCard profileData={this.profileData} />
+        }
       </div>
     )
   }

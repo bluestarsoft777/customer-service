@@ -1,0 +1,15 @@
+.profile-card {
+  width: -moz-min-content;
+  width: -webkit-in-content;
+  width: min-content;
+}
+
+.profile-card__line {
+  white-space: nowrap;
+}
+
+.profile-card__label {
+  min-width: 50px;
+  margin-right: 5px;
+  display: inline-block;
+}
