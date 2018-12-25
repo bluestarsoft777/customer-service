@@ -1,6 +1,7 @@
 import db from '../../infrastructure/db'
 import humps from 'humps'
 import { CustomerRepository, Customer, EditCustomer, toCustomer, Filters, CustomerSearchResult } from '../../domain/customer';
+import { getLimitAndOffset } from './storageUtilities'
 
 const customerColumns = ['id', 'email', 'first_name', 'last_name', 'created_at', 'is_hot']
 
@@ -111,14 +112,6 @@ async function update(customerId: number, customerData: EditCustomer): Promise<C
   const customerEntry = humps.camelizeKeys(customer)
   return toCustomer(customerEntry)
 }
-
-function getLimitAndOffset(page = 1, size = 20) {
-  return {
-    limit: size,
-    offset: (page - 1) * size
-  }
-}
-
 
 type CountResultItem = {
   count: number
