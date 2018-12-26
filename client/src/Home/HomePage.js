@@ -1,6 +1,7 @@
 import React from 'react'
 import { NotLoggedInAuthorization, SalesRepresentativeAuthorization, BasicAuthorization } from '../common/Authorization'
 import { Link } from 'react-router-dom'
+import { observer } from 'mobx-react'
 
 class HomePage extends React.Component {
   render () {
@@ -36,4 +37,4 @@ class HomePage extends React.Component {
   }
 }
 
-export default HomePage
+export default observer(HomePage)

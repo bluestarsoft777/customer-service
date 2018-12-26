@@ -1,14 +1,18 @@
 import React from 'react'
 import Loader from '../common/Loader'
 import { inject, observer } from 'mobx-react'
-import { withRouter } from "react-router";
+import { withRouter } from 'react-router'
 
 class AuthCallbackPage extends React.Component {
   componentDidMount = () => {
-    this.props.authStore.handleAuthFromHash({
-      onAuth: this.authSuccess,
-      onError: this.authFailed
-    })
+    if (!this.props.authStore.isLoggedIn) {
+      this.props.authStore.handleAuthFromHash({
+        onAuth: this.authSuccess,
+        onError: this.authFailed
+      })
+    } else {
+      this.props.history.replace('/')
+    }
   }
 
   authSuccess = () => {

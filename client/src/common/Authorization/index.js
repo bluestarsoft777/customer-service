@@ -3,6 +3,7 @@ import SalesRepresentativeAuthorization from './SalesRepresentativeAuthorization
 import NotLoggedInAuthorization from './NotLoggedInAuthorization'
 import BasicAuthorization from './BasicAuthorization'
 import LoggedInAuthorization from './LoggedInAuthorization'
+import AuthorizedRoute from './AuthorizedRoute'
 import renderRole from './renderRole'
 
 export {
@@ -11,5 +12,6 @@ export {
   BasicAuthorization,
   NotLoggedInAuthorization,
   LoggedInAuthorization,
-  renderRole
+  renderRole,
+  AuthorizedRoute
 }

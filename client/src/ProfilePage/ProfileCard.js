@@ -11,7 +11,7 @@ class ProfileCard extends React.Component {
         <article className='media'>
           <div className='media-left'>
             <figure className='image is-64x64'>
-              <img src={profileData.picture} alt='Image' />
+              <img src={profileData.picture} alt='Profile pic' />
             </figure>
           </div>
           <div className='media-content'>

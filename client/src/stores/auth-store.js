@@ -112,7 +112,11 @@ class AuthStore {
     this.expiresAt = 0
 
     clearUserLogin()
-    window.location = '/'
+
+    this.auth0.logout({
+      returnTo: process.env.REACT_APP_URL,
+      clientID: process.env.REACT_APP_AUTH_CLIENT_ID
+    })
 
     api.clearToken()
   }

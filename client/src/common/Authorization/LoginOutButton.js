@@ -8,13 +8,13 @@ const LogInOutButton = ({ className, authStore }) => {
 
   if (authStore.isLoggedIn) {
     return (
-      <button className={classes} onClick={authStore.logout}>
+      <button className={classes} onClick={authStore.logout} data-cy='logout-button'>
         <strong>Log out</strong>
       </button>
     )
   } else {
     return (
-      <button className={classes} onClick={authStore.login}>
+      <button className={classes} onClick={authStore.login} data-cy='login-button'>
         <strong>Log in</strong>
       </button>
     )

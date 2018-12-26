@@ -32,9 +32,8 @@ class Header extends React.Component {
     return (
       <nav className='navbar' role='navigation' aria-label='main navigation'>
         <div className='navbar-brand'>
-          <Link className='navbar-item' to={'/'}>
+          <Link className='navbar-item' to={'/'} data-cy='app-logo-link'>
             <UsersIcon />
-            {/* <img src={logo} alt='football-logo' width={40} height={30} /> */}
           </Link>
 
           <a onClick={this.toggleHeader} role='button' className={navbarBurgerClasses} aria-label='menu' aria-expanded='false' data-target='navbarBasicExample'>
@@ -46,23 +45,23 @@ class Header extends React.Component {
 
         <div id='navbarBasicExample' className={navbarMenuClasses}>
           <div className='navbar-start'>
-            <NavLink exact to={'/'} className='navbar-item' activeClassName='has-text-weight-bold'>
+            <NavLink exact to={'/'} className='navbar-item' data-cy='home-link' activeClassName='has-text-weight-bold'>
               Home
             </NavLink>
 
             <SalesRepresentativeAuthorization>
-              <NavLink to={'/customer-service'} className='navbar-item' activeClassName='has-text-weight-bold'>
+              <NavLink to={'/customer-service'} className='navbar-item' data-cy='customer-service-link' activeClassName='has-text-weight-bold'>
                 Customer service
               </NavLink>
             </SalesRepresentativeAuthorization>
 
             <LoggedInAuthorization>
-              <NavLink to={'/profile'} className='navbar-item' activeClassName='has-text-weight-bold'>
+              <NavLink to={'/profile'} className='navbar-item' data-cy='profile-link' activeClassName='has-text-weight-bold'>
                 Profile
               </NavLink>
             </LoggedInAuthorization>
 
-            <NavLink to={'/about'} className='navbar-item' activeClassName='has-text-weight-bold'>
+            <NavLink to={'/about'} className='navbar-item' data-cy='about-link' activeClassName='has-text-weight-bold'>
               About
             </NavLink>
           </div>
