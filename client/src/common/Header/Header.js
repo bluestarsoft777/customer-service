@@ -2,7 +2,7 @@ import React from 'react'
 import { Link, NavLink, withRouter } from 'react-router-dom'
 import { LoginOutButton, SalesRepresentativeAuthorization, LoggedInAuthorization } from '../Authorization'
 import { observer } from 'mobx-react'
-// import logo from '../../logo.svg'
+import UsersIcon from './UsersIcon'
 
 class Header extends React.Component {
   constructor (props) {
@@ -33,8 +33,8 @@ class Header extends React.Component {
       <nav className='navbar' role='navigation' aria-label='main navigation'>
         <div className='navbar-brand'>
           <Link className='navbar-item' to={'/'}>
+            <UsersIcon />
             {/* <img src={logo} alt='football-logo' width={40} height={30} /> */}
-            <span className=''>App</span>
           </Link>
 
           <a onClick={this.toggleHeader} role='button' className={navbarBurgerClasses} aria-label='menu' aria-expanded='false' data-target='navbarBasicExample'>
