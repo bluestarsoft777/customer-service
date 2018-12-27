@@ -1,13 +1,16 @@
 import * as Knex from 'knex';
-import { createFakeCustomer } from 'utilities/createFakeCustomer';
+import { createFakeCustomer, mapCustomerToDbCustomer } from '../../../utilities/createFakeCustomer';
 
-exports.seed = function (knex: Knex): any {
-    return knex('users').del()
-        .then(function () {
-            return knex('users').insert(
-                createFakeUsers()
-            );
-        });
+// @ts-ignore
+exports.seed = async function (knex: Knex): any {
+    await knex('users').del()
+    let fakeUsers = createFakeUsers()
+
+    // insert users in batches to avoid "SQLITE_ERROR: too many SQL variables"
+    while (fakeUsers.length > 0) {
+        const userBatch = fakeUsers.splice(0, 200)
+        await knex('users').insert(userBatch)
+    }
 };
 
 function createFakeUsers () {
@@ -15,7 +18,8 @@ function createFakeUsers () {
 
     for (let i = 0; i < 10000; i++) {
         const customer = createFakeCustomer()
-        customers.push(customer)
+        const dbCustomer = mapCustomerToDbCustomer(customer)
+        customers.push(dbCustomer)
     }
 
     return customers

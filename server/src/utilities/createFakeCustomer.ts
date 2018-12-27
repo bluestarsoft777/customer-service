@@ -1,10 +1,10 @@
 import { Customer } from "domain/customer";
 import * as faker from 'faker'
+import { snakeCase } from 'lodash'
 
 export function createFakeCustomer () : any {
   return createCustomerBaseDate()
 }
-
 
 export function createFakeCustomerWithId (id?: number) : Customer {
   let _id
@@ -37,4 +37,16 @@ function createCustomerBaseDate () {
     isHot: faker.random.boolean(),
     joinedOn: faker.date.recent().toISOString()
   }
+}
+
+export function mapCustomerToDbCustomer (customer: Customer) : any {
+  let dbCustomer = {}
+  for (let key of Object.keys(customer)) {
+    if (key !== 'joinedOn') {
+      const snakeCasedKey = snakeCase(key)
+      // @ts-ignore
+      dbCustomer[snakeCasedKey] = customer[key]
+    }
+  }
+  return dbCustomer
 }
