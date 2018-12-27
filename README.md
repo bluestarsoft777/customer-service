@@ -104,3 +104,16 @@ function (user, context, callback) {
     });
 }
 ```
+
+## Tests
+
+There are a few Unit and E2E tests.
+
+### E2E
+
+E2E tests can be run in `client/` with `npm run e2e` in a headless browser.
+Or to see what's going on you can use `npm run e2e:show`.
+
+### Unit tests
+
+Unit tests can be run in `server/` with `npm run test`.
