@@ -1,101 +1,106 @@
 # Customer service app
 
-## TODO
-
-**Functionality**
-
-- (DONE) pagination reuses filters
-- (DONE) Add sales representative check for routes
-- (DONE) Add "Hot" status and filter
-- (TODO) Add view profile route when logged in
-- Show error if data fails to load
-
-**General**
-
-- add instructions for installation and setup
-- add general overview docs
-- add architecture explanation & benefits
-- add SQLite setup - easier to get started with
-- take care of ocassional login error: "invalid_token" / "`state` does not match."
-​
-## Use case
-
 As a Sales representative I need to see a list of all customers with status Hot from the customer service.
 
-### Technical requirements:
+## Setup
 
-- (TODO) It should be easy for us to configure and test your solution. Less than 5 minutes.
+Start app steps:
 
-- (OK) You have to create the customer service
-
-- (OK) The customer service should be independent of the user interface (different applications)
-
-- (OK) The user should be authenticated through Auth0 (OK)
-
-- (OK) The role should be set in Auth0 (Auth0 used also for Authorization rules)
-
-- (OK) The customer service should return HTTP 401 if the user is not authorized
-
-- (OK) The user interface should have a button to start the authentication process
-
-- (OK) The customer service must be implemented in either .Net Core or Node.js
-
-## Database
-
-### Configuration
-
-#### Only for PostgreSQL
-
-Setting up PostgreSQl involves a couple of steps. This section can be ignored if using SQLite.
-
-To setup a PostgreSQL database, we need to create a user and a database:
+### Step 1 - Clone repo
 
 ```sh
-# First make sure PostgreSQL is installed and running
-# Check the status with (command may differ depending on the OS)
-sudo systemctl start postgresql
-
-# After making sure it's running connect to it with postgres user
-# or whatever root user is registered
-sudo -u postgres psql
-
-# Then create the database
-create database [database_name];
-
-# Create a user for it
-create user [database_user] with encrypted password '[database_password]';
-
-# Grant the privileges to the user
-grant all privileges on database [database_name] to [database_user];
+git clone git@github.com:davorbadrov/customer-service.git
+cd customer-service
 ```
 
-After creating the database and the user and allowing user access to the database,
-then update .env file:
+
+### Step 2 - Setup Auth0
+
+Register single page app in Auth0 and use data to fill the .env variables below.
+Add a role check described below in step 5
+
+### Step 3 - Setup .env files
+
+Create `client/.env` file with the following info:
 
 ```sh
-...
-DB_CLIENT = pg # update from sqlite3
-DB_CONNECTION = postgres://[database_user]:[database_password]@localhost:5432/[database_name]
+REACT_APP_URL=http://localhost:3000
+REACT_APP_AUTH_DOMAIN=auth0_domain
+REACT_APP_AUTH_CLIENT_ID=auth0_client_id
+REACT_APP_AUTH_REDIRECT_URI=http://localhost:3000/callback
 ```
 
-### Migrations
+Create `client/cypress.env.json` file with the following info:
 
-Migrations are handled via knex, the common commands can be run via npm/yarn:
+```json
+{
+  "auth0Domain": "auth0_domain",
+  "auth0ClientId": "auth0_client_id",
+  "auth0RedirectUri": "http://localhost:3000/callback",
+  "auth0SalesRepresentativeEmail": "register_sales_representative_domain_user_email",
+  "auth0SalesRepresentativePassword": "register_sales_representative_domain_password",
+  "auth0BasicUserEmail": "register_non_sales_representative_user_email",
+  "auth0BasicUserPassword": "register_non_sales_representative_user_password"
+}
+```
+
+Create `server/.env` file with the following info:
 
 ```sh
-# create a migration
-npm run db:create-migration [migration_name]
+NODE_PATH = src
+NODE_ENV = development
+PORT = 3001
+SECRET = this_is_a_super_secret
+JWT_SECRET = this_is_a_jwt_secret
+DB_CLIENT = sqlite3
+```
 
-# run migrations
+### Step 4 - install deps, then start client & server apps
+
+Client
+
+```sh
+cd client && npm i
+npm run start
+```
+
+Server
+
+```sh
+cd server && npm i
 npm run db:migrate
-
-# undo migrations
-npm run db:migrate-undo
+npm run db:load
+npm run start:dev
 ```
 
-### Seeds
+### Step 5 - Setup Auth0 role check
 
-To seed the database with test data just run:
-```sh
-npm run db:load
+Add a rule in Auth0 service
+
+```js
+function (user, context, callback) {
+  user.app_metadata = user.app_metadata || {};
+
+  const addRolesToUser = function(user) {
+    // add a check to see wether user is sales representative or not
+    const isSalesRepresentative = user.email.includes('@someemail.com')
+    if (isSalesRepresentative) {
+      return ['sales-representative'];
+    } else {
+      return ['basic'];
+    }
+  };
+
+  const roles = addRolesToUser(user);
+
+  user.app_metadata.roles = roles;
+  auth0.users.updateAppMetadata(user.user_id, user.app_metadata)
+    .then(function() {
+      context.idToken['https://customer-service.com/roles'] = user.app_metadata.roles;
+      callback(null, user, context);
+    })
+    .catch(function (err) {
+      callback(err);
+    });
+}
 ```
