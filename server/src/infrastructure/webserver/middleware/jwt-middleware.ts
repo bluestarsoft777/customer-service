@@ -25,8 +25,6 @@ const jwtMiddleware = jwt({
     jwksRequestsPerMinute: 5,
     jwksUri: "https://dbadrov.eu.auth0.com/.well-known/jwks.json"
   }),
-  // audience: 'https://customers-api.my-app.com',
-  // issuer: "https://dbadrov.eu.auth0.com/",
   algorithms: ['RS256'],
   passthrough: true,
   key: 'jwt'
