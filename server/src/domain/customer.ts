@@ -30,7 +30,7 @@ export function toCustomer (customerData: any) : Customer {
     lastName: customerData.lastName,
     email: customerData.email,
     joinedOn: customerData.createdAt,
-    isHot: customerData.isHot
+    isHot: !!customerData.isHot
   }
 }
 
