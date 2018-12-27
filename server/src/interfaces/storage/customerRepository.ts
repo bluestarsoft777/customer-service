@@ -39,9 +39,9 @@ async function findAll(filters: Filters, /*transaction*/): Promise<CustomerSearc
     .limit(limit)
     .offset(offset)
     .where(function () {
-      if (filters.email) this.where('email', 'ilike', filters.email + '%')
-      if (filters.firstName) this.where('first_name', 'ilike', filters.firstName + '%')
-      if (filters.lastName) this.where('last_name', 'ilike', filters.lastName + '%')
+      if (filters.email) this.where('email', 'like', filters.email + '%')
+      if (filters.firstName) this.where('first_name', 'like', filters.firstName + '%')
+      if (filters.lastName) this.where('last_name', 'like', filters.lastName + '%')
       if (filters.isHot !== undefined) this.where('is_hot', '=', filters.isHot)
     })
 
@@ -49,9 +49,9 @@ async function findAll(filters: Filters, /*transaction*/): Promise<CustomerSearc
     // .transacting(transaction)
     .count()
     .where(function () {
-      if (filters.email) this.where('email', 'ilike', filters.email + '%')
-      if (filters.firstName) this.where('first_name', 'ilike', filters.firstName + '%')
-      if (filters.lastName) this.where('last_name', 'ilike', filters.lastName + '%')
+      if (filters.email) this.where('email', 'like', filters.email + '%')
+      if (filters.firstName) this.where('first_name', 'like', filters.firstName + '%')
+      if (filters.lastName) this.where('last_name', 'like', filters.lastName + '%')
       if (filters.isHot !== undefined) this.where('is_hot', '=', filters.isHot)
     })
 
@@ -121,7 +121,7 @@ type CountResult = CountResultItem[]
 
 function getCount(countResult: CountResult): number {
   if (countResult && countResult[0]) {
-    return countResult[0].count || 0
+    return Object.values(countResult[0])[0] || 0
   } else {
     0
   }
