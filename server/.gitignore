@@ -22,3 +22,5 @@ yarn-error.log*
 
 # remove secrets
 .env
+src/infrastructure/db/*.sqlite3
+src/infrastructure/db/*.sqlite3-journal
