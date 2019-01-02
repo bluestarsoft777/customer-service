@@ -1,5 +1,5 @@
 import { CustomerRepository, Customer, EditCustomer, toCustomer, Filters, CustomerSearchResult } from '../../../domain/customer';
-import { createFakeCustomerWithId } from 'utilities/createFakeCustomer';
+import { createFakeCustomerWithId } from '../../../utilities/createFakeCustomer';
 import { getLimitAndOffset } from '../storageUtilities';
 
 // in memory 'DB'

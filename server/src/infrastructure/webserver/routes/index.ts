@@ -1,5 +1,5 @@
 import Router from 'koa-router'
-import { Container } from 'container'
+import { Container } from '../../../container'
 import { getUserRoutes } from './userRoutes'
 import { getCustomerRoutes } from './customerRoutes'
 

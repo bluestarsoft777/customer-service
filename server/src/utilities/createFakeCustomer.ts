@@ -1,4 +1,4 @@
-import { Customer } from "domain/customer";
+import { Customer } from "../domain/customer";
 import * as faker from 'faker'
 import { snakeCase } from 'lodash'
 

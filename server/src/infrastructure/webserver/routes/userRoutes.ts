@@ -2,7 +2,6 @@ import Router from 'koa-router'
 // import auth from '../middleware/auth-required-middleware'
 // import typeof * as Container from 'container'
 import { Container } from 'container';
-import { validate } from 'utilities/validationToPromise';
 // import { LoginDataV } from 'app/loginUser';
 // import { RegisterUserV } from 'app/registerUser';
 // import { decode } from 'jsonwebtoken';

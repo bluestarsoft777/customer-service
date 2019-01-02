@@ -1,7 +1,7 @@
 import Router from 'koa-router'
 import { Container } from 'container';
-import { validate } from 'utilities/validationToPromise';
-import { FiltersV, Filters } from 'domain/customer';
+import { validate } from '../../../utilities/validationToPromise';
+import { FiltersV, Filters } from '../../../domain/customer';
 import { authorized, isSalesRepresentative } from '../middleware/auth';
 
 export function getCustomerRoutes (container: Container) {
